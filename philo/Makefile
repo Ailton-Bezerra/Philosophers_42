@@ -5,7 +5,7 @@ CFLAGS  := -g3 -Wextra -Wall -Werror
 HEADERS := -I ./include
 
 SRCS_DIR := src/
-SRCS     := $(addprefix $(SRCS_DIR), main.c \)
+SRCS     := $(addprefix $(SRCS_DIR), main.c utils.c)
 DIR_OBJ		:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 

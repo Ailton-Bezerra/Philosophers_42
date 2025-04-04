@@ -6,12 +6,16 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:06:02 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/01 15:56:47 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:18:35 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILISOPHERS_H
+#ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
+
+#include <stdio.h>
+#include <sys/time.h>
+#include <pthread.h>
 
 // a quantidade de garfos é a mesma que de filosofos
 
@@ -19,7 +23,7 @@
 // number_of_philosophers time_to_die time_to_eat time_to_sleep
 // [number_of_times_each_philosopher_must_eat]
 
-// time_to_die é contado em milisegundos
+// time_to_die é contado em microssegundos
 // este tempo é começa a contar a partir do momento em que o programa começa, ou quando o philo come.
 
 // time_to_eat é o tempo que leva para um philo comer
@@ -46,30 +50,43 @@
 // cada philo tem que ser uma thread
 // cada garfo tem que ter uma mutex
 
-enum e_action
-{
-	EATING,
-	THINGING,
-	SLEEPING,
-	DIED,
-};
+// as threads não são processos novos (não têm um PID), são como que fragmentos da thread principal (a main), e, surpreendentemente, compartilham o mesmo espaço de memória entre si, o que traz suas vantagens e seus desafios para que tudo funcione certinho.
 
-typedef struct s_forks
-{
-	void	*fork_array;
-}				t_forks;
+// timestamps (quantidade de tempo que dura uma atividade)
 
+// colocar a flag -pthread para compilar certas funções
+
+// criar a rotina com funções para cada coisa (comer, dormir, pensar). O id do garfo de cada filosofo pode ser 
+// igual ao id dos filosofos. Criar uma mutex com cada indexe dos garfos.
+
+// usleep(100) no think.
+//  /philo 5 800 400 400
+
+// criar uma struct que vai server para cada philo.
+// algumas soluções usam a data dentro de philos,
+//outras usam philo dentro de data.
 typedef struct s_philo
 {
 	int		id;
-	int		fork_left;
-	int		fork_right;
+	
+	pthread_mutex_t		fork_left;
+	pthread_mutex_t		fork_right;
+	
+	unsigned int	time_to_die;
+	unsigned int	time_to_eat;
+	unsigned int	time_to_sleep;
+	unsigned int	must_eat;
 }		t_philo;
 
-typedef struct s_table
+typedef struct s_data
 {
-	t_philo *philo;
-	t_forks *forks;
-}			t_table;
+	unsigned int	number_of_philos;
+	unsigned int	start_time;
+	t_philo 		*philo;
+	pthread_mutex_t *forks;
+	int				finished;
+}			t_data;
+
+unsigned int ft_atou(char *str);
 
 #endif
