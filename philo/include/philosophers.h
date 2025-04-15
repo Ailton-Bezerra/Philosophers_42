@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:06:02 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/02 18:18:35 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/15 10:22:37 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <pthread.h>
+#include <stdlib.h>
+
 
 // a quantidade de garfos é a mesma que de filosofos
 
@@ -24,7 +26,7 @@
 // [number_of_times_each_philosopher_must_eat]
 
 // time_to_die é contado em microssegundos
-// este tempo é começa a contar a partir do momento em que o programa começa, ou quando o philo come.
+// este tempo começa a contar a partir do momento em que o programa começa, ou quando o philo come.
 
 // time_to_eat é o tempo que leva para um philo comer
 // durante esse tempo, dois garfos estarão ocupados (ou seja, é o tempo em que o recurso ficara bloqueado).
@@ -62,15 +64,20 @@
 // usleep(100) no think.
 //  /philo 5 800 400 400
 
-// criar uma struct que vai server para cada philo.
+// criar uma struct que vai servir para cada philo.
 // algumas soluções usam a data dentro de philos,
 //outras usam philo dentro de data.
+
+// ========== structs ==========
 typedef struct s_philo
 {
 	int		id;
 	
 	pthread_mutex_t		fork_left;
 	pthread_mutex_t		fork_right;
+
+	// não sei se é mais interessante isso aqui ou na data
+	pthread_mutex_t		print_msg;
 	
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
@@ -86,7 +93,12 @@ typedef struct s_data
 	pthread_mutex_t *forks;
 	int				finished;
 }			t_data;
+// ==============================
 
+// ==========  utils.c ==========
 unsigned int ft_atou(char *str);
+
+// ========== free_and_errros.c ==========
+void free_struct(t_data *data);
 
 #endif

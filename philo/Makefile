@@ -1,16 +1,15 @@
-NAME		:= philosophers
+NAME		:= philo
 
 CC      := cc
 CFLAGS  := -g3 -Wextra -Wall -Werror
 HEADERS := -I ./include
 
 SRCS_DIR := src/
-SRCS     := $(addprefix $(SRCS_DIR), main.c utils.c)
+SRCS     := $(addprefix $(SRCS_DIR), main.c utils.c free_and_errors.c)
 DIR_OBJ		:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 
-VALGRIND	:= valgrind --leak-check=full --track-origins=yes --track-fds=yes\
-			--show-leak-kinds=all
+VALGRIND	:= valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all
 NO_PRINT	:= --no-print-directory
 CYAN		:= \033[1;36m
 GREEN		:= \033[1;32m
@@ -37,7 +36,8 @@ fclean: clean
 re: fclean all
 
 val: $(NAME)
-	$(VALGRIND) ./philosophers 0 0 0 0 0
+	$(VALGRIND) ./philo 1 0 0 0 0
+	
 norm:
 	@echo "\n$(CYAN)=======$(END) $(GREEN)LIBFT$(END) $(CYAN)=======$(END)"
 	@norminette libraries/libft | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/libft/\x1b[1;31m&\x1b[0m/g'
