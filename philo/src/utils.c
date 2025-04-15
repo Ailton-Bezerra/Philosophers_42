@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 10:40:33 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/10 14:04:14 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/15 10:40:46 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,18 @@ unsigned int ft_atou(char *str)
 	while (str[i] && (str[i] >= '0' && str[i] <= '9'))
 		nb = (nb * 10) + str[i++] - '0';
 	return (nb);
+}
+
+int is_negative(int argc, char *argv[])
+{
+	int i;
+
+	i = 1;
+	while(argv[i] && i <= argc)
+	{
+		if (argv[i][0] == '-')
+			return (1);
+		i++;
+	}
+	return (0);
 }

@@ -5,7 +5,7 @@ CFLAGS  := -g3 -Wextra -Wall -Werror
 HEADERS := -I ./include
 
 SRCS_DIR := src/
-SRCS     := $(addprefix $(SRCS_DIR), main.c utils.c free_and_errors.c)
+SRCS     := $(addprefix $(SRCS_DIR), main.c utils.c free_and_errors.c init.c)
 DIR_OBJ		:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 
@@ -36,8 +36,8 @@ fclean: clean
 re: fclean all
 
 val: $(NAME)
-	$(VALGRIND) ./philo 1 0 0 0 0
-	
+	$(VALGRIND) ./philo 0 0 0 0 0
+
 norm:
 	@echo "\n$(CYAN)=======$(END) $(GREEN)LIBFT$(END) $(CYAN)=======$(END)"
 	@norminette libraries/libft | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/libft/\x1b[1;31m&\x1b[0m/g'

@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:06:02 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/15 10:22:37 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/15 10:42:27 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,14 @@ typedef struct s_data
 
 // ==========  utils.c ==========
 unsigned int ft_atou(char *str);
+int is_negative(int argc, char *argv[]);
 
 // ========== free_and_errros.c ==========
 void free_struct(t_data *data);
+int check_input(int argc, char *argv[]);
+
+// ========== init.c ==========
+void init_philos(t_philo *philos, char *argv[]);
+void	init_data(t_data *data, char *argv[]);
 
 #endif
