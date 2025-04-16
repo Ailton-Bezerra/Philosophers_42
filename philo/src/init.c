@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 10:41:23 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/15 10:41:55 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/16 11:07:16 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	init_data(t_data *data, char *argv[])
 	printf("start_time: %u\n", data->start_time);
 	data->finished = 0;
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->number_of_philos);
+	data->philo = malloc(data->number_of_philos * sizeof(t_philo));
 	while (i < data->number_of_philos)
 		pthread_mutex_init(&data->forks[i++], NULL);
-	// pthread_mutex_init()
+	pthread_mutex_init(&data->print_msg, NULL);
 }

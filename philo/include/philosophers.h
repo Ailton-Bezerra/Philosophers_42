@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:06:02 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/15 10:42:27 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/16 12:07:16 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@
 // algumas soluções usam a data dentro de philos,
 //outras usam philo dentro de data.
 
+typedef struct s_data t_data;
+
 // ========== structs ==========
 typedef struct s_philo
 {
@@ -75,9 +77,8 @@ typedef struct s_philo
 	
 	pthread_mutex_t		fork_left;
 	pthread_mutex_t		fork_right;
-
-	// não sei se é mais interessante isso aqui ou na data
-	pthread_mutex_t		print_msg;
+	t_data				*data;
+	pthread_t			thread;
 	
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
@@ -91,6 +92,7 @@ typedef struct s_data
 	unsigned int	start_time;
 	t_philo 		*philo;
 	pthread_mutex_t *forks;
+	pthread_mutex_t	print_msg;
 	int				finished;
 }			t_data;
 // ==============================
@@ -106,5 +108,13 @@ int check_input(int argc, char *argv[]);
 // ========== init.c ==========
 void init_philos(t_philo *philos, char *argv[]);
 void	init_data(t_data *data, char *argv[]);
+
+// ========== routine_utils.c ==========
+void		sleep(t_philo *philo);
+void		think(t_philo *philo);
+void		eat(t_philo *philo);
+void		take_right_fork(t_philo *philo, pthread_mutex_t  *right_fork);
+void		take_left_fork(t_philo *philo, pthread_mutex_t *left_fork);
+
 
 #endif

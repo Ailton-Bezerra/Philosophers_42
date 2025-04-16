@@ -5,11 +5,13 @@ CFLAGS  := -g3 -Wextra -Wall -Werror
 HEADERS := -I ./include
 
 SRCS_DIR := src/
-SRCS     := $(addprefix $(SRCS_DIR), main.c utils.c free_and_errors.c init.c)
+SRCS     := $(addprefix $(SRCS_DIR), main.c utils.c free_and_errors.c init.c \
+				routine_utils.c)
 DIR_OBJ		:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 
 VALGRIND	:= valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all
+GDB			:= gdb set args 0 0 0 0 0 --tui
 NO_PRINT	:= --no-print-directory
 CYAN		:= \033[1;36m
 GREEN		:= \033[1;32m
@@ -36,7 +38,10 @@ fclean: clean
 re: fclean all
 
 val: $(NAME)
-	$(VALGRIND) ./philo 0 0 0 0 0
+	$(VALGRIND) ./philo
+
+debug : $(NAME)
+	$(GDB) 0 0 0 0 0 ./philo
 
 norm:
 	@echo "\n$(CYAN)=======$(END) $(GREEN)LIBFT$(END) $(CYAN)=======$(END)"
