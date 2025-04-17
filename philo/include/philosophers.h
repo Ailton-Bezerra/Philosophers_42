@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:06:02 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/16 12:07:16 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/17 12:14:04 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 #include <sys/time.h>
 #include <pthread.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 
 // a quantidade de garfos é a mesma que de filosofos
 
 // esses são os argumentos que o programa recebe
+
 // number_of_philosophers time_to_die time_to_eat time_to_sleep
 // [number_of_times_each_philosopher_must_eat]
 
@@ -68,9 +70,18 @@
 // algumas soluções usam a data dentro de philos,
 //outras usam philo dentro de data.
 
-typedef struct s_data t_data;
+
+// ========== defines ==========
+# define TAKE_FORK "\001\033[1;33m\002has taken a fork\001\033[0m\002"
+# define IS_DIED "\001\033[1;37m\002is  died\001\033[0m\002"
+# define IS_SLEEP "\001\033[1;36m\002is  sleeping\001\033[0m\002"
+# define IS_THINKING "\001\033[1;35m\002is  thinking\001\033[0m\002"
+# define IS_EATING "\001\033[1;32m\002is  eating\001\033[0m\002"
+// =============================
 
 // ========== structs ==========
+typedef struct s_data t_data;
+
 typedef struct s_philo
 {
 	int		id;
@@ -89,7 +100,7 @@ typedef struct s_philo
 typedef struct s_data
 {
 	unsigned int	number_of_philos;
-	unsigned int	start_time;
+	long long		start_time;
 	t_philo 		*philo;
 	pthread_mutex_t *forks;
 	pthread_mutex_t	print_msg;
@@ -98,23 +109,23 @@ typedef struct s_data
 // ==============================
 
 // ==========  utils.c ==========
-unsigned int ft_atou(char *str);
-int is_negative(int argc, char *argv[]);
+unsigned int	ft_atou(char *str);
+int				is_negative(int argc, char *argv[]);
+void 			join_all(t_data *data, t_philo *philo);
 
 // ========== free_and_errros.c ==========
 void free_struct(t_data *data);
 int check_input(int argc, char *argv[]);
 
 // ========== init.c ==========
-void init_philos(t_philo *philos, char *argv[]);
-void	init_data(t_data *data, char *argv[]);
+t_philo *init_philos(char *argv[], t_data *data);
+t_data	*init_data(char *argv[]);
 
 // ========== routine_utils.c ==========
-void		sleep(t_philo *philo);
+void		sleeping(t_philo *philo);
 void		think(t_philo *philo);
 void		eat(t_philo *philo);
 void		take_right_fork(t_philo *philo, pthread_mutex_t  *right_fork);
 void		take_left_fork(t_philo *philo, pthread_mutex_t *left_fork);
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 10:40:33 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/16 12:05:32 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/17 10:48:24 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int is_negative(int argc, char *argv[])
 	return (0);
 }
 
-void join_all(t_data *data)
+void join_all(t_data *data, t_philo *philo)
 {
 	unsigned int	i;
 
 	i = 0;
 	while (i < data->number_of_philos)	
-		pthread_join(data->philo[i++].thread, NULL); 
+		pthread_join(philo[i++].thread, NULL); 
 }
