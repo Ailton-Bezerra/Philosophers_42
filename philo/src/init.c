@@ -6,16 +6,16 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 10:41:23 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/17 11:32:03 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/17 12:29:21 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-t_philo *init_philos(char *argv[], t_data *data)
+t_philo	*init_philos(char *argv[], t_data *data)
 {
-	unsigned int i;
-	t_philo *philos;
+	unsigned int	i;
+	t_philo			*philos;
 
 	i = 0;
 	philos = malloc(sizeof(t_philo) * data->number_of_philos);
@@ -39,18 +39,17 @@ t_data	*init_data(char *argv[])
 {
 	struct timeval	start;
 	unsigned int	i;
-	t_data *data;
+	t_data			*data;
 
 	if (!argv[0])
 		return (NULL);
 	data = malloc(sizeof(t_data));
 	if (!data)
-		return (NULL);	
+		return (NULL);
 	gettimeofday(&start, NULL);
 	i = 0;
 	data->number_of_philos = ft_atou(argv[1]);
 	data->start_time = start.tv_sec * 1000LL + start.tv_usec / 1000;
-	// printf("start_time: %u\n", data->start_time);
 	data->finished = 0;
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->number_of_philos);
 	data->philo = malloc(data->number_of_philos * sizeof(t_philo));

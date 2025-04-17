@@ -6,19 +6,20 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:05:48 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/17 12:16:17 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/17 12:31:27 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-void *routine (void *philo)
+void	*routine(void *philo)
 {
-	pthread_mutex_t  *left_fork;
-	pthread_mutex_t  *right_fork;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 
 	left_fork = &((t_philo *)philo)->data->forks[((t_philo *)philo)->id - 1];
-	right_fork = &((t_philo *)philo)->data->forks[(((t_philo *)philo)->id - 1) % ((t_philo *)philo)->data->number_of_philos];
+	right_fork = &((t_philo *)philo)->data->forks[(((t_philo *)philo)->id - 1)
+		% ((t_philo *)philo)->data->number_of_philos];
 	// while(nenhum philo morreu ou se alimentou o suficiente)
 	while (((t_philo *)philo)->must_eat)
 	{
@@ -33,12 +34,12 @@ void *routine (void *philo)
 	return ("test");
 }
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
-	t_philo *philos;
-	t_data	*data;
-	unsigned int i;
-	
+	t_philo			*philos;
+	t_data			*data;
+	unsigned int	i;
+
 	if (!check_input(argc, argv))
 		return (1);
 	data = init_data(argv);
@@ -47,7 +48,7 @@ int main(int argc, char *argv[])
 	philos = init_philos(argv, data);
 	if (!philos)
 		return (1);
-	i = 0; 
+	i = 0;
 	while (i < data->number_of_philos)
 	{
 		pthread_create(&philos[i].thread, NULL, &routine, &philos[i]);
