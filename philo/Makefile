@@ -6,7 +6,7 @@ HEADERS := -I ./include
 
 SRCS_DIR := src/
 SRCS     := $(addprefix $(SRCS_DIR), main.c utils.c free_and_errors.c init.c \
-				routine_utils.c)
+				routine_utils.c monitor_utils.c)
 DIR_OBJ		:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 

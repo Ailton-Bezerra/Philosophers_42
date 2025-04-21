@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 10:41:23 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/17 12:29:21 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:55:36 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ t_philo	*init_philos(char *argv[], t_data *data)
 		philos[i].must_eat = 0;
 		if (argv[5])
 			philos[i].must_eat = ft_atou(argv[5]);
+		philos[i].last_meal = 0;
+		pthread_mutex_init(&philos[i].meal_time, NULL);
 		philos[i++].data = data;
 	}
 	return (philos);
@@ -52,9 +54,10 @@ t_data	*init_data(char *argv[])
 	data->start_time = start.tv_sec * 1000LL + start.tv_usec / 1000;
 	data->finished = 0;
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->number_of_philos);
-	data->philo = malloc(data->number_of_philos * sizeof(t_philo));
+	data->end_of_simulation = 0;
 	while (i < data->number_of_philos)
 		pthread_mutex_init(&data->forks[i++], NULL);
 	pthread_mutex_init(&data->print_msg, NULL);
+	pthread_mutex_init(&data->end, NULL);
 	return (data);
 }

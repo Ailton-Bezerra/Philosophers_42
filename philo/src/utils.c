@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 10:40:33 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/17 12:35:31 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:59:42 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,3 +47,14 @@ void	join_all(t_data *data, t_philo *philo)
 	i = 0;
 	while (i < data->number_of_philos)
 		pthread_join(philo[i++].thread, NULL);
+}
+
+long	current_time(t_philo *philo)
+{
+	struct timeval	now;
+	long			ct;
+
+	gettimeofday(&now, NULL);
+	ct = (now.tv_sec * 1000ll + now.tv_usec / 1000) - philo->data->start_time;
+	return (ct);
+}

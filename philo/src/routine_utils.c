@@ -6,83 +6,85 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:04:07 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/17 12:34:04 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:58:58 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-// void died(t_philo *philo)
-// {
-// 	pthread_mutex_lock(&philo->data->print_msg);
-// time = (now.tv_sec * 1000ll + now.tv_usec / 1000) - philo->data->start_time;
-// 	printf("%ld p%d"IS_DIED"\n", time, philo->id);
-// 	pthread_mutex_unlock(&philo->data->print_msg);
-// }
-
-void	sleeping(t_philo *philo)
+int	sleeping(t_philo *philo)
 {
-	struct timeval	now;
 	long long		time;
 
+	if (!simulation_status(philo))
+		return (0);
 	pthread_mutex_lock(&philo->data->print_msg);
-	gettimeofday(&now, NULL);
-	time = (now.tv_sec * 1000ll + now.tv_usec / 1000) - philo->data->start_time;
-	printf("%lld p%d "IS_SLEEP"\n", time, philo->id);
-	usleep(philo->time_to_sleep);
+	time = current_time(philo);
+	printf("%lld\t%d\t"IS_SLEEP"\n", time, philo->id);
 	pthread_mutex_unlock(&philo->data->print_msg);
+	usleep(philo->time_to_sleep * 1000);
+	return (1);
 }
 
-void	think(t_philo *philo)
+int	think(t_philo *philo)
 {
-	struct timeval	now;
 	long long		time;
 
+	if (!simulation_status(philo))
+		return (0);
 	pthread_mutex_lock(&philo->data->print_msg);
-	gettimeofday(&now, NULL);
-	time = (now.tv_sec * 1000ll + now.tv_usec / 1000) - philo->data->start_time;
-	printf("%lld p%d "IS_THINKING"\n", time, philo->id);
+	time = current_time(philo);
+	printf("%lld\t%d\t"IS_THINKING"\n", time, philo->id);
+	pthread_mutex_unlock(&philo->data->print_msg);
 	usleep(1000);
-	pthread_mutex_unlock(&philo->data->print_msg);
+	return (1);
 }
 
-void	eat(t_philo *philo)
+int	eat(t_philo *p, pthread_mutex_t *l_fork, pthread_mutex_t *r_fork)
 {
-	struct timeval	now;
 	long long		time;
 
-	pthread_mutex_lock(&philo->data->print_msg);
-	gettimeofday(&now, NULL);
-	time = (now.tv_sec * 1000ll + now.tv_usec / 1000) - philo->data->start_time;
-	printf("%lld p%d "IS_EATING"\n", time, philo->id);
-	usleep(philo->time_to_eat);
-	pthread_mutex_unlock(&philo->data->print_msg);
+	if (!simulation_status(p))
+		return (0);
+	pthread_mutex_lock(&p->data->print_msg);
+	time = current_time(p);
+	printf("%lld\t%d\t"IS_EATING"\n", time, p->id);
+	pthread_mutex_unlock(&p->data->print_msg);
+	pthread_mutex_lock(&p->meal_time);
+	p->last_meal = time;
+	pthread_mutex_unlock(&p->meal_time);
+	usleep(p->time_to_eat * 1000);
+	pthread_mutex_unlock(l_fork);
+	pthread_mutex_unlock(r_fork);
+	return (1);
 }
 
-void	take_right_fork(t_philo *philo, pthread_mutex_t *right_fork)
+int	take_right_fork(t_philo *philo, pthread_mutex_t *right_fork)
 {
-	struct timeval	now;
 	long long		time;
 
 	pthread_mutex_lock(right_fork);
+	if (!simulation_status(philo))
+		return (pthread_mutex_unlock(right_fork), 0);
 	pthread_mutex_lock(&philo->data->print_msg);
-	gettimeofday(&now, NULL);
-	time = (now.tv_sec * 1000LL + now.tv_usec / 1000) - philo->data->start_time;
-	printf("%lld p%d " TAKE_FORK"\n", time, philo->id);
+	time = current_time(philo);
+	printf("%lld\t%d\t"TAKE_FORK"\n", time, philo->id);
 	pthread_mutex_unlock(&philo->data->print_msg);
-	pthread_mutex_unlock(right_fork);
+	if (philo->data->number_of_philos == 1)
+		return (pthread_mutex_unlock(right_fork), 0);
+	return (1);
 }
 
-void	take_left_fork(t_philo *philo, pthread_mutex_t *left_fork)
+int	take_left_fork(t_philo *p, pthread_mutex_t *left_fork)
 {
-	struct timeval	now;
 	long long		time;
 
 	pthread_mutex_lock(left_fork);
-	pthread_mutex_lock(&philo->data->print_msg);
-	gettimeofday(&now, NULL);
-	time = (now.tv_sec * 1000ll + now.tv_usec / 1000) - philo->data->start_time;
-	printf("%lld p%d " TAKE_FORK"\n", time, philo->id);
-	pthread_mutex_unlock(&philo->data->print_msg);
-	pthread_mutex_unlock(left_fork);
+	if (!simulation_status(p))
+		return (pthread_mutex_unlock(left_fork), 0);
+	pthread_mutex_lock(&p->data->print_msg);
+	time = current_time(p);
+	printf("%lld\t%d\t"TAKE_FORK"\n", time, p->id);
+	pthread_mutex_unlock(&p->data->print_msg);
+	return (1);
 }
