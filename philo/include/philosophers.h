@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:06:02 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/21 16:03:23 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:24:11 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philo
 	unsigned int		time_to_eat;
 	unsigned int		time_to_sleep;
 	unsigned int		must_eat;
+	unsigned int		meals_eaten;
 	long long			last_meal;
 }						t_philo;
 
@@ -51,7 +52,7 @@ typedef struct s_data
 	pthread_mutex_t	end;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_msg;
-	int				finished;
+	unsigned int	finished;
 }					t_data;
 // ==============================
 

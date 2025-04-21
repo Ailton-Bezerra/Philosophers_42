@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:05:48 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/21 15:57:50 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:03:16 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	monitor_routine(t_philo *p)
 	while (1)
 	{
 		i = 0;
-		if (p->data->end_of_simulation)
+		if (!simulation_status(p))
 			break ;
 		while (i < p->data->number_of_philos)
 		{

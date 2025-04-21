@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:04:07 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/21 15:58:58 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:36:23 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ int	eat(t_philo *p, pthread_mutex_t *l_fork, pthread_mutex_t *r_fork)
 	usleep(p->time_to_eat * 1000);
 	pthread_mutex_unlock(l_fork);
 	pthread_mutex_unlock(r_fork);
+	p->meals_eaten++;
+	pthread_mutex_lock(&p->data->end);
+	if (p->meals_eaten == p->must_eat)
+		p->data->finished++;
+	pthread_mutex_unlock(&p->data->end);
 	return (1);
 }
 

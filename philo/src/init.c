@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 10:41:23 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/21 15:55:36 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:16:22 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_philo	*init_philos(char *argv[], t_data *data)
 		if (argv[5])
 			philos[i].must_eat = ft_atou(argv[5]);
 		philos[i].last_meal = 0;
+		philos[i].meals_eaten = 0;
 		pthread_mutex_init(&philos[i].meal_time, NULL);
 		philos[i++].data = data;
 	}
