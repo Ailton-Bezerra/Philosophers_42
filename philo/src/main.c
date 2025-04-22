@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:05:48 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/22 10:33:52 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/22 11:49:51 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	*routine(void *philo)
 			break ;
 		if (!think(p))
 			break ;
-		usleep(1000);
 	}
 	return (NULL);
 }
@@ -96,12 +95,15 @@ int	main(int argc, char *argv[])
 		return (1);
 	philos = init_philos(argv, data);
 	if (!philos)
+	{
+		free_struct(data, philos);
 		return (1);
+	}
 	i = -1;
 	while (++i < data->number_of_philos)
 		pthread_create(&philos[i].thread, NULL, &routine, &philos[i]);
 	monitor_routine(philos);
 	join_all(data, philos);
-	free_struct(data);
+	free_struct(data, philos);
 	return (0);
 }

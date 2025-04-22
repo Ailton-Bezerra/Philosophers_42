@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 09:50:03 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/22 10:38:41 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/22 11:53:37 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	free_struct(t_data *data, t_philo *philos)
 	free(data->forks);
 	pthread_mutex_destroy(&data->print_msg);
 	pthread_mutex_destroy(&data->end);
+	pthread_mutex_destroy(&philos->meal_time);
 	free(data);
 	free(philos);
 }
