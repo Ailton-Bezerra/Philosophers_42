@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:06:02 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/21 16:24:11 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/22 10:39:17 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void			join_all(t_data *data, t_philo *philo);
 long			current_time(t_philo *philo);
 
 // ========== free_and_errros.c ==========
-void			free_struct(t_data *data);
+void			free_struct(t_data *data, t_philo *philos);
 int				check_input(int argc, char *argv[]);
 
 // ========== init.c ==========

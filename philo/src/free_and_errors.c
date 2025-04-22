@@ -6,21 +6,24 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 09:50:03 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/17 12:32:08 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/22 10:38:41 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-void	free_struct(t_data *data)
+void	free_struct(t_data *data, t_philo *philos)
 {
 	unsigned int	i;
 
 	i = 0;
-	free(data->forks);
 	while (i < data->number_of_philos)
 		pthread_mutex_destroy(&data->forks[i++]);
+	free(data->forks);
 	pthread_mutex_destroy(&data->print_msg);
+	pthread_mutex_destroy(&data->end);
+	free(data);
+	free(philos);
 }
 
 int	check_input(int argc, char *argv[])

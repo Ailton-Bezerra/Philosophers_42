@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:05:48 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/21 17:03:16 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/22 10:33:52 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,25 @@ int	take_forks(t_philo *p, pthread_mutex_t *l_fork, pthread_mutex_t *r_fork)
 {
 	if (p->id % 2 == 0)
 	{
-		if (!take_left_fork(p, l_fork) || !take_right_fork(p, r_fork))
+		if (!take_left_fork(p, l_fork))
+			return (pthread_mutex_unlock(l_fork), 0);
+		if (!take_right_fork(p, r_fork))
+		{
+			pthread_mutex_unlock(l_fork);
+			pthread_mutex_unlock(r_fork);
 			return (0);
+		}
 	}
 	else
 	{
-		if (!take_right_fork(p, r_fork) || !take_left_fork(p, l_fork))
+		if (!take_right_fork(p, r_fork))
+			return (pthread_mutex_unlock(r_fork), 0);
+		if (!take_left_fork(p, l_fork))
+		{
+			pthread_mutex_unlock(l_fork);
+			pthread_mutex_unlock(r_fork);
 			return (0);
+		}
 	}
 	return (1);
 }

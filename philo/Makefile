@@ -11,7 +11,7 @@ DIR_OBJ		:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 
 VALGRIND	:= valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all
-GDB			:= gdb set args 0 0 0 0 0 --tui
+HELGRIND    := valgrind --tool=helgrind
 NO_PRINT	:= --no-print-directory
 CYAN		:= \033[1;36m
 GREEN		:= \033[1;32m
@@ -38,10 +38,10 @@ fclean: clean
 re: fclean all
 
 val: $(NAME)
-	$(VALGRIND) ./philo
+	$(VALGRIND) ./philo 110 310 200 10
 
-debug : $(NAME)
-	$(GDB) 0 0 0 0 0 ./philo
+hel:
+	$(HELGRIND) ./philo 110 310 200 10
 
 norm:
 	@echo "\n$(CYAN)=======$(END) $(GREEN)MANDATORY$(END) $(CYAN)=======$(END)"
@@ -49,4 +49,4 @@ norm:
 	@echo "\n$(CYAN)=======$(END) $(GREEN)INCLUDE$(END) $(CYAN)=======$(END)"
 	@norminette include | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/includes/\x1b[1;36m&\x1b[0m/g'
 
-.PHONY: all clean fclean re norm val
+.PHONY: all clean fclean re norm val hel
