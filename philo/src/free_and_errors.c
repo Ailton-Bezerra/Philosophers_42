@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 09:50:03 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/04/22 11:53:37 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/04/22 13:17:15 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	check_input(int argc, char *argv[])
 		printf("All values must be positive!\n");
 		return (0);
 	}
-	if (!ft_atou(argv[1]))
+	if (!ft_atou(argv[1]) || (argv[5] && !ft_atou(argv[5])))
 	{
-		printf("Numbers of philos must be more than 0!\n");
+		printf("Numbers of philos and meals must be more than 0!\n");
 		return (0);
 	}
 	if (ft_atou(argv[1]) > 200)
